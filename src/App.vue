@@ -11,21 +11,36 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from 'vue';
+import { ref, reactive, toRefs} from 'vue';
+interface DataProps{
+  girls: string[];
+  selectGirl: string;
+  selectGirlFun: (index: number) => void;
+}
 
-export default defineComponent({
+export default {
   name: 'App',
-  setup() {
-    const girls = ref(["大脚", "刘英", "晓红"])
-    const selectGirl = ref("")
-    const selectGirlFun = (index: number) => {
-        selectGirl.value = girls.value[index]
-    }
+  setup: function () {
+    const data: DataProps = reactive({
+      girls: ["大脚", "刘英", "晓红"],
+      selectGirl: "",
+      selectGirlFun: (index: number) => {
+        data.selectGirl = data.girls[index]
+      }
+    })
+    const refData = toRefs(data)
+
+
+    // const girls = ref(["大脚", "刘英", "晓红"])
+    // const selectGirl = ref("")
+    // const selectGirlFun = (index: number) => {
+    //     selectGirl.value = girls.value[index]
+    // }
     return {
-      girls, selectGirl,selectGirlFun
+      ...refData
     }
   }
-});
+};
 </script>
 
 <style>
